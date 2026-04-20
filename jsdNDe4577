@@ -1,35 +1,31 @@
-local Key = string.char(73,65,109,65,108,119,97,121,115,65,55,70,97,105,108,117,114,101,70,114,102,114,57,48,55,54)
+local KeyCorreta = "IamAlwaysAFailureFRfr"
 local liberado = false
 
-local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Parent = game.CoreGui
-
-local Frame = Instance.new("Frame")
-Frame.Parent = ScreenGui
+local ScreenGui = Instance.new("ScreenGui", game.CoreGui)
+local Frame = Instance.new("Frame", ScreenGui)
 Frame.Size = UDim2.new(0, 300, 0, 150)
 Frame.Position = UDim2.new(0.5, -150, 0.5, -75)
-Frame.BackgroundColor3 = Color3.fromRGB(25, 0, 35)
+Frame.BackgroundColor3 = Color3.fromRGB(20, 0, 30)
 
 Instance.new("UICorner", Frame)
+local Stroke = Instance.new("UIStroke", Frame)
+Stroke.Color = Color3.fromRGB(170,0,255)
 
-local Box = Instance.new("TextBox")
-Box.Parent = Frame
-Box.Size = UDim2.new(0.8, 0, 0, 35)
-Box.Position = UDim2.new(0.1, 0, 0.3, 0)
+local Box = Instance.new("TextBox", Frame)
+Box.Size = UDim2.new(0.8,0,0,35)
+Box.Position = UDim2.new(0.1,0,0.3,0)
 Box.PlaceholderText = "Digite a Key"
-Box.Text = ""
 Box.BackgroundColor3 = Color3.fromRGB(30,0,45)
-Box.TextColor3 = Color3.fromRGB(255,255,255)
+Box.TextColor3 = Color3.new(1,1,1)
 
 Instance.new("UICorner", Box)
 
-local Btn = Instance.new("TextButton")
-Btn.Parent = Frame
-Btn.Size = UDim2.new(0.8, 0, 0, 35)
-Btn.Position = UDim2.new(0.1, 0, 0.65, 0)
+local Btn = Instance.new("TextButton", Frame)
+Btn.Size = UDim2.new(0.8,0,0,35)
+Btn.Position = UDim2.new(0.1,0,0.65,0)
 Btn.Text = "Confirmar"
 Btn.BackgroundColor3 = Color3.fromRGB(170,0,255)
-Btn.TextColor3 = Color3.fromRGB(255,255,255)
+Btn.TextColor3 = Color3.new(1,1,1)
 
 Instance.new("UICorner", Btn)
 
@@ -37,40 +33,127 @@ Btn.MouseButton1Click:Connect(function()
     if Box.Text == KeyCorreta then
         liberado = true
         ScreenGui:Destroy()
-    else
-        Box.Text = "Key inválida"
     end
 end)
 
 repeat task.wait() until liberado
 
+-- LOAD RAYFIELD
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
+-- BOTÃO FLUTUANTE
+pcall(function()
+    game.CoreGui:FindFirstChild("FloatingButtonGui"):Destroy()
+end)
 
+local gui = Instance.new("ScreenGui", game.CoreGui)
+gui.Name = "FloatingButtonGui"
+
+local btnFrame = Instance.new("Frame", gui)
+btnFrame.Size = UDim2.new(0,55,0,55)
+btnFrame.Position = UDim2.new(0.05,0,0.2,0)
+btnFrame.BackgroundColor3 = Color3.fromRGB(25,0,35)
+btnFrame.Active = true
+
+Instance.new("UICorner", btnFrame)
+
+local stroke = Instance.new("UIStroke", btnFrame)
+stroke.Color = Color3.fromRGB(170,0,255)
+
+local btn = Instance.new("TextButton", btnFrame)
+btn.Size = UDim2.new(1,0,1,0)
+btn.BackgroundTransparency = 1
+btn.Text = "P"
+btn.Font = Enum.Font.Bangers
+btn.TextSize = 28
+btn.TextColor3 = Color3.new(1,1,1)
+
+local txtStroke = Instance.new("UIStroke", btn)
+txtStroke.Color = Color3.fromRGB(170,0,255)
+
+-- DRAG
+local UIS = game:GetService("UserInputService")
+local dragging, dragStart, startPos, moved, dragInput
+
+btnFrame.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = true
+        moved = false
+        dragStart = input.Position
+        startPos = btnFrame.Position
+    end
+end)
+
+btnFrame.InputChanged:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseMovement then
+        dragInput = input
+    end
+end)
+
+UIS.InputChanged:Connect(function(input)
+    if input == dragInput and dragging then
+        local delta = input.Position - dragStart
+        if math.abs(delta.X) > 3 or math.abs(delta.Y) > 3 then
+            moved = true
+        end
+        btnFrame.Position = UDim2.new(
+            startPos.X.Scale,
+            startPos.X.Offset + delta.X,
+            startPos.Y.Scale,
+            startPos.Y.Offset + delta.Y
+        )
+    end
+end)
+
+UIS.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = false
+    end
+end)
+
+-- HUB (AGORA FUNCIONANDO NORMAL)
 local Window = Rayfield:CreateWindow({
-   Name = "🍀 Sev7en Pragae Hub V3",
-   LoadingTitle = "Injetando Sev7en Pragae Store...",
-   LoadingSubtitle = "Feito por Pacotinho",
+   Name = "🍀 Sev7en Pragae hub V2",
+   LoadingTitle = "Carregando...",
+   LoadingSubtitle = "Sev7en System",
    ConfigurationSaving = { Enabled = false }
 })
 
+-- CLICK
+btn.MouseButton1Click:Connect(function()
+    if not moved then
+        Rayfield:ToggleButton()
+    end
+end)
+
+-- VARIAVEIS
+_G.AutoLucky = false
+_G.AutoSkills = false
+_G.GhostMode = true
+
+local remote = game:GetService("ReplicatedStorage")
+:WaitForChild("Packages")
+:WaitForChild("_Index")
+:WaitForChild("sleitnick_knit@1.7.0")
+:WaitForChild("knit")
+:WaitForChild("Services")
+:WaitForChild("SeasonService")
+:WaitForChild("RF")
+:WaitForChild("RequestRankedReward")
+
 -- TABS
-local MainTab = Window:CreateTab("Auto Farm", 4483345998)
+local MainTab = Window:CreateTab("Farm", 4483345998)
 
 MainTab:CreateToggle({
-   Name = "Método Lucky Spins 🐉(Bronze 3)",
+   Name = "🐉 Método Lucky Spins",
    CurrentValue = false,
-   Callback = function(v)
-      _G.AutoLucky = v
-   end,
+   Callback = function(v) _G.AutoLucky = v end,
 })
 
 MainTab:CreateToggle({
-   Name = "Método Habilidades 🔹(Silver 2)",
+   Name = "🔷 Método Habilidades",
    CurrentValue = false,
-   Callback = function(v)
-      _G.AutoSkills = v
-   end,
+   Callback = function(v) _G.AutoSkills = v end,
 })
 
 local SafeTab = Window:CreateTab("Segurança", 4483345998)
@@ -78,24 +161,19 @@ local SafeTab = Window:CreateTab("Segurança", 4483345998)
 SafeTab:CreateToggle({
    Name = "Ghost Mode (Anti-Ban)",
    CurrentValue = true,
-   Callback = function(v)
-      _G.GhostMode = v
-   end,
+   Callback = function(v) _G.GhostMode = v end,
 })
 
--- INFO TAB (QUE VOCÊ QUERIA)
 local InfoTab = Window:CreateTab("Info", 4483345998)
-
 InfoTab:CreateParagraph({
-   Title = "Créditos",
-   Content = "Made by: Pacotinho, Sr_Heaven"
+    Title = "Créditos",
+    Content = "Made by: Pacotinho, Sr_Heaven"
 })
 
 -- LOOP
 task.spawn(function()
     while true do
         if _G.AutoLucky or _G.AutoSkills then
-
             local waitTime = _G.GhostMode and math.random(20,50)/10 or 0.7
             task.wait(waitTime)
 
@@ -103,6 +181,10 @@ task.spawn(function()
                 task.wait(math.random(4,8))
             end
 
+            pcall(function()
+                if _G.AutoLucky then remote:InvokeServer(1) end
+                if _G.AutoSkills then remote:InvokeServer(4) end
+            end)
         else
             task.wait(1)
         end
