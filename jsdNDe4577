@@ -1,29 +1,21 @@
-print("SCRIPT INICIOU")
+local KeyCorreta = "IAmAlwaysA7FailureFrfr9076"
+local liberado = false
 
-local database = loadstring(game:HttpGet("https://raw.githubusercontent.com/pacotiiiiinho/yudAB77as/main/jsdNDe4577.lua"))()
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Parent = game.CoreGui
 
---========================
--- KEY SYSTEM (ONLINE)
---========================
+local Frame = Instance.new("Frame")
+Frame.Parent = ScreenGui
+Frame.Size = UDim2.new(0, 300, 0, 150)
+Frame.Position = UDim2.new(0.5, -150, 0.5, -75)
+Frame.BackgroundColor3 = Color3.fromRGB(25, 0, 35)
 
-local KeyCorretaPlaceholder = "DIGITE_SUA_KEY"
+Instance.new("UICorner", Frame)
 
-local ScreenGui = Instance.new("ScreenGui", game.CoreGui)
-
-local KeyFrame = Instance.new("Frame", ScreenGui)
-KeyFrame.Size = UDim2.new(0, 300, 0, 150)
-KeyFrame.Position = UDim2.new(0.5, -150, 0.5, -75)
-KeyFrame.BackgroundColor3 = Color3.fromRGB(25, 0, 35)
-
-Instance.new("UICorner", KeyFrame)
-
-local Stroke = Instance.new("UIStroke", KeyFrame)
-Stroke.Color = Color3.fromRGB(170, 0, 255)
-Stroke.Thickness = 2
-
-local Box = Instance.new("TextBox", KeyFrame)
-Box.Size = UDim2.new(0.8,0,0,35)
-Box.Position = UDim2.new(0.1,0,0.3,0)
+local Box = Instance.new("TextBox")
+Box.Parent = Frame
+Box.Size = UDim2.new(0.8, 0, 0, 35)
+Box.Position = UDim2.new(0.1, 0, 0.3, 0)
 Box.PlaceholderText = "Digite a Key"
 Box.Text = ""
 Box.BackgroundColor3 = Color3.fromRGB(30,0,45)
@@ -31,175 +23,84 @@ Box.TextColor3 = Color3.fromRGB(255,255,255)
 
 Instance.new("UICorner", Box)
 
-local Btn = Instance.new("TextButton", KeyFrame)
-Btn.Size = UDim2.new(0.8,0,0,35)
-Btn.Position = UDim2.new(0.1,0,0.65,0)
+local Btn = Instance.new("TextButton")
+Btn.Parent = Frame
+Btn.Size = UDim2.new(0.8, 0, 0, 35)
+Btn.Position = UDim2.new(0.1, 0, 0.65, 0)
 Btn.Text = "Confirmar"
 Btn.BackgroundColor3 = Color3.fromRGB(170,0,255)
 Btn.TextColor3 = Color3.fromRGB(255,255,255)
 
 Instance.new("UICorner", Btn)
 
-local liberado = false
-
--- ✅ FUNÇÃO CORRETA (FORA DO BOTÃO)
-local function CheckKey(key)
-    local data = database[key]
-
-    if not data then
-        return false
-    end
-
-    if data.userId ~= game.Players.LocalPlayer.UserId then
-        return false
-    end
-
-    if os.time() > data.expire then
-        return false
-    end
-
-    return true
-end
-
--- ✅ BOTÃO CORRIGIDO
 Btn.MouseButton1Click:Connect(function()
-
-    if CheckKey(Box.Text) then
+    if Box.Text == KeyCorreta then
         liberado = true
         ScreenGui:Destroy()
     else
         Box.Text = "Key inválida"
     end
-
 end)
 
 repeat task.wait() until liberado
 
---========================
--- HUB UI CUSTOM (ROXO NEON)
---========================
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
-local Hub = Instance.new("ScreenGui", game.CoreGui)
 
-local Main = Instance.new("Frame", Hub)
-Main.Size = UDim2.new(0, 320, 0, 240)
-Main.Position = UDim2.new(0.5, -160, 0.5, -120)
-Main.BackgroundColor3 = Color3.fromRGB(20, 0, 30)
+local Window = Rayfield:CreateWindow({
+   Name = "🍀 Sev7en Pragae Hub V3",
+   LoadingTitle = "Injetando Sev7en Pragae Store...",
+   LoadingSubtitle = "Feito por Pacotinho",
+   ConfigurationSaving = { Enabled = false }
+})
 
-Instance.new("UICorner", Main)
+-- TABS
+local MainTab = Window:CreateTab("Auto Farm", 4483345998)
 
-local Stroke2 = Instance.new("UIStroke", Main)
-Stroke2.Color = Color3.fromRGB(170,0,255)
-Stroke2.Thickness = 2
+MainTab:CreateToggle({
+   Name = "Método Lucky Spins 🐉(Bronze 3)",
+   CurrentValue = false,
+   Callback = function(v)
+      _G.AutoLucky = v
+   end,
+})
 
-local Title = Instance.new("TextLabel", Main)
-Title.Size = UDim2.new(1,0,0,30)
-Title.BackgroundTransparency = 1
-Title.Text = "🍀 Sev7en Pragae Hub V2"
-Title.TextColor3 = Color3.fromRGB(255,255,255)
-Title.Font = Enum.Font.Bangers
-Title.TextSize = 20
+MainTab:CreateToggle({
+   Name = "Método Habilidades 🔹(Silver 2)",
+   CurrentValue = false,
+   Callback = function(v)
+      _G.AutoSkills = v
+   end,
+})
 
-local Credit = Instance.new("TextLabel", Main)
-Credit.Size = UDim2.new(1,0,0,20)
-Credit.Position = UDim2.new(0,0,1,-20)
-Credit.BackgroundTransparency = 1
-Credit.Text = "Made by Pacotinho"
-Credit.TextColor3 = Color3.fromRGB(170,0,255)
-Credit.TextSize = 14
+local SafeTab = Window:CreateTab("Segurança", 4483345998)
 
---========================
--- SISTEMA DE ESTADO
---========================
+SafeTab:CreateToggle({
+   Name = "Ghost Mode (Anti-Ban)",
+   CurrentValue = true,
+   Callback = function(v)
+      _G.GhostMode = v
+   end,
+})
 
-local Method = {
-    Lucky = false,
-    Skills = false,
-    Ghost = true
-}
+-- INFO TAB (QUE VOCÊ QUERIA)
+local InfoTab = Window:CreateTab("Info", 4483345998)
 
---========================
--- NOTIFICAÇÕES
---========================
+InfoTab:CreateParagraph({
+   Title = "Créditos",
+   Content = "Made by: Pacotinho, Sr_Heaven"
+})
 
-local function Notify(text)
-    game.StarterGui:SetCore("SendNotification", {
-        Title = "Sev7en Hub",
-        Text = text .. " | Made by Pacotinho",
-        Duration = 3
-    })
-end
-
---========================
--- BOTÕES
---========================
-
-local LuckyBtn = Instance.new("TextButton", Main)
-LuckyBtn.Size = UDim2.new(0.9,0,0,35)
-LuckyBtn.Position = UDim2.new(0.05,0,0.2,0)
-LuckyBtn.Text = "🐉 Método Lucky Spins"
-LuckyBtn.BackgroundColor3 = Color3.fromRGB(40,0,60)
-LuckyBtn.TextColor3 = Color3.fromRGB(255,255,255)
-
-Instance.new("UICorner", LuckyBtn)
-
-local SkillsBtn = Instance.new("TextButton", Main)
-SkillsBtn.Size = UDim2.new(0.9,0,0,35)
-SkillsBtn.Position = UDim2.new(0.05,0,0.4,0)
-SkillsBtn.Text = "🔷 Método Habilidades"
-SkillsBtn.BackgroundColor3 = Color3.fromRGB(40,0,60)
-SkillsBtn.TextColor3 = Color3.fromRGB(255,255,255)
-
-Instance.new("UICorner", SkillsBtn)
-
-local GhostBtn = Instance.new("TextButton", Main)
-GhostBtn.Size = UDim2.new(0.9,0,0,35)
-GhostBtn.Position = UDim2.new(0.05,0,0.6,0)
-GhostBtn.Text = "Ghost Mode"
-GhostBtn.BackgroundColor3 = Color3.fromRGB(40,0,60)
-GhostBtn.TextColor3 = Color3.fromRGB(255,255,255)
-
-Instance.new("UICorner", GhostBtn)
-
---========================
--- TOGGLES
---========================
-
-LuckyBtn.MouseButton1Click:Connect(function()
-    Method.Lucky = not Method.Lucky
-    Notify(Method.Lucky and "Método Lucky ATIVADO" or "Método Lucky DESATIVADO")
-end)
-
-SkillsBtn.MouseButton1Click:Connect(function()
-    Method.Skills = not Method.Skills
-    Notify(Method.Skills and "Método Skills ATIVADO" or "Método Skills DESATIVADO")
-end)
-
-GhostBtn.MouseButton1Click:Connect(function()
-    Method.Ghost = not Method.Ghost
-end)
-
---========================
--- LOOP SILENCIOSO
---========================
-
+-- LOOP
 task.spawn(function()
     while true do
-        if Method.Lucky or Method.Skills then
+        if _G.AutoLucky or _G.AutoSkills then
 
-            local delay = Method.Ghost and math.random(20,50)/10 or 0.7
-            task.wait(delay)
+            local waitTime = _G.GhostMode and math.random(20,50)/10 or 0.7
+            task.wait(waitTime)
 
-            if Method.Ghost and math.random(1,15) == 7 then
+            if _G.GhostMode and math.random(1,15) == 7 then
                 task.wait(math.random(4,8))
-            end
-
-            if Method.Lucky then
-                print("Lucky running")
-            end
-
-            if Method.Skills then
-                print("Skills running")
             end
 
         else
@@ -207,5 +108,3 @@ task.spawn(function()
         end
     end
 end)
-
-print("Made by Pacotinho, Sr_Heaven")
