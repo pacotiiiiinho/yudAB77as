@@ -1,4 +1,4 @@
-print("SCRIPT INICIOU")
+local database = loadstring(game:HttpGet("loadstring(game:HttpGet("https://raw.githubusercontent.com/pacotiiiiinho/yudAB77as/main/jsdNDe4577.lua"))()"))()
 --========================
 -- KEY SYSTEM (ONLINE)
 --========================
@@ -41,7 +41,23 @@ local liberado = false
 
 Btn.MouseButton1Click:Connect(function()
     -- aqui depois vamos plugar o sistema online
-    if Box.Text == KeyCorretaPlaceholder then
+    local function CheckKey(key)
+    local data = database[key]
+
+    if not data then
+        return false
+    end
+
+    if data.userId ~= game.Players.LocalPlayer.UserId then
+        return false
+    end
+
+    if os.time() > data.expire then
+        return false
+    end
+
+    return true
+end
         liberado = true
         ScreenGui:Destroy()
     else
@@ -189,11 +205,3 @@ end)
 
 print("Made by Pacotinho, Sr_Heaven")
 
-return {
-
-    ["ademir"] = {
-        userId = 10250997787,
-        expire = os.time() + 86400
-    }
-
-}
