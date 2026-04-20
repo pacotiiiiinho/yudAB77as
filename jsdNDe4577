@@ -1,4 +1,5 @@
 local database = loadstring(game:HttpGet("https://raw.githubusercontent.com/pacotiiiiinho/yudAB77as/main/jsdNDe4577.lua"))()
+
 --========================
 -- KEY SYSTEM (ONLINE)
 --========================
@@ -39,9 +40,8 @@ Instance.new("UICorner", Btn)
 
 local liberado = false
 
-Btn.MouseButton1Click:Connect(function()
-    -- aqui depois vamos plugar o sistema online
-    local function CheckKey(key)
+-- ✅ FUNÇÃO CORRETA (FORA DO BOTÃO)
+local function CheckKey(key)
     local data = database[key]
 
     if not data then
@@ -58,11 +58,17 @@ Btn.MouseButton1Click:Connect(function()
 
     return true
 end
+
+-- ✅ BOTÃO CORRIGIDO
+Btn.MouseButton1Click:Connect(function()
+
+    if CheckKey(Box.Text) then
         liberado = true
         ScreenGui:Destroy()
     else
         Box.Text = "Key inválida"
     end
+
 end)
 
 repeat task.wait() until liberado
@@ -186,14 +192,11 @@ task.spawn(function()
                 task.wait(math.random(4,8))
             end
 
-            -- AQUI depois vamos plugar sua lógica real
             if Method.Lucky then
-                -- placeholder
                 print("Lucky running")
             end
 
             if Method.Skills then
-                -- placeholder
                 print("Skills running")
             end
 
@@ -204,4 +207,3 @@ task.spawn(function()
 end)
 
 print("Made by Pacotinho, Sr_Heaven")
-
